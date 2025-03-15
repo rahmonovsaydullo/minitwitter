@@ -1,0 +1,50 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+}
+main{
+    margin-top: 50px;
+    /* background-image: url('../assets/tw.jpg'); */
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-clip: border-box;
+    height: 90vh;
+
+    
+}
+.main-container  {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 500px;
+    height: 500px;
+    margin: auto;
+    border: 1px solid black; 
+    background-color: rgba(0, 0, 0, 0.731);
+    color: white;
+}
+
+.box{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap:5px
+}
+
+input, button{
+    width: 300px;
+    height: 40px;
+}
+
+button{
+    cursor: pointer;
+}
+
+a{
+
+}
