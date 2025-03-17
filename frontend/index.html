@@ -20,13 +20,16 @@
             <h3 class="fw-bold">Twitter</h3>
             <h4>Login to Twitter</h4>
             <div class="box">
-                <label for="username">Username</label>
-                <input type="text" name="username" id="username" placeholder="Enter username">
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" placeholder="Enter password">
-                <button class="btn btn-primary">Login</button>
+            <div class="form-floating mb-3 w-25">
+                <input type="email" class="form-control" id="floatingInput" placeholder="Enter username">
+                <label for="floatingInput">Username</label>
+            </div>
+            <div class="form-floating w-25">
+                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                <label for="floatingPassword">Password</label>
             </div>
             <p>Don't have an account? <a class="text-decoration-none" href="./pages/signup.html">Register now</a></p>
+        </div>
         </div>
     </main>
 </body>
