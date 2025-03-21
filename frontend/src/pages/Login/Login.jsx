@@ -50,7 +50,7 @@ const Login = () => {
           <a href="#" className="hover:underline">
             Forgot password?
           </a>
-          <a href="http://localhost:3000/signup?#" className="hover:underline">
+          <a href="/signup" className="hover:underline">
             Sign up to Twitter
           </a>
         </div>
