@@ -1,34 +1,44 @@
 import { useNavigate } from "react-router-dom"; 
 import React, { useState } from "react";
+import axios from "axios"; // Import Axios for API calls
 import img from "../../assets/twitter.svg";
 
 const SignUpPage = () => {
-     const [name, setName] = useState("");
-      const [username, setUsername] = useState("");
-      const [password, setPassword] = useState("");
-      const navigate = useNavigate(); // Initialize useNavigate
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [profilePicture, setProfilePicture] = useState(null); // State for image
+  const navigate = useNavigate(); 
+
+  // Handle file selection
+  const handleFileChange = (e) => {
+    setProfilePicture(e.target.files[0]); // Store selected file
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     
-      const handleSubmit = (e) => {
-        e.preventDefault();
-    
-        // Predefined credentials
-        const correctName = "admin";
-        const correctPassword = "password";
-    
-        // Check if the entered name and password match the predefined credentials
-        if (name === correctName && password === correctPassword) {
-          // Save to localStorage
-          localStorage.setItem("username", name);
-          localStorage.setItem("password", password);
-    
-          // Redirect to the login page
-          navigate("/login");
-        } else {
-          // If credentials don't match, you can show an error message or handle it as needed
-          console.log("Incorrect username or password.");
+    const formData = new FormData();
+    formData.append("first_name", name);
+    formData.append("user_name", username);
+    formData.append("password", password);
+    formData.append("profile_picture", profilePicture); // Attach file
+
+    try {
+      const response = await axios.post("http://localhost:5000/api/signup", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data" 
         }
-      };
-    
+      });
+
+      console.log("Signup Successful", response.data);
+      navigate("/login"); // Redirect to login page
+
+    } catch (error) {
+      console.error("Signup failed", error.response?.data);
+    }
+  };
+
   return (
     <div className="h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
@@ -45,6 +55,7 @@ const SignUpPage = () => {
             placeholder="Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            required
           />
           <input
             className="w-full p-3 mb-4 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
@@ -52,9 +63,14 @@ const SignUpPage = () => {
             placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            required
           />
-          <input className="w-full mb-4 border py-2 border-gray-300 rounded focus:outline-none focus:border-blue-500"
+          <input 
+            className="w-full mb-4 border py-2 border-gray-300 rounded focus:outline-none focus:border-blue-500"
             type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            required
           />
           <input
             className="w-full p-3 mb-6 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
@@ -62,6 +78,7 @@ const SignUpPage = () => {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
         
           <button className="w-full bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition duration-300">
@@ -76,7 +93,7 @@ const SignUpPage = () => {
         </p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SignUpPage
+export default SignUpPage;
