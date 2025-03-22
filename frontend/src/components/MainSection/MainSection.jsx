@@ -11,7 +11,7 @@ const MainSection = () => {
       <div className='bg-white'>
         <div className='flex  ms-2 pt-3 gap-4'>
           <img  src="https://images.pexels.com/photos/14653174/pexels-photo-14653174.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" style={{width:"50px", height:"50px", borderRadius:"50%"}} />
-          <input className='w-full border' type="text" placeholder="Create new post" />
+          <input className='w-full border px-4' type="text" placeholder="Create new post" />
         </div>
         <div className='flex justify-between px-3 py-4'>
           <input type="file" />

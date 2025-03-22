@@ -22,7 +22,7 @@ const SideBar = () => {
   ];
 
   return (
-    <div className='flex flex-col items-start justify-center mt-2 ms-28 gap-6 '>
+    <div className='flex flex-col items-start justify-center mt-2 ms-20 gap-6 '>
       <FontAwesomeIcon className='text-3xl' icon={faTwitter} style={{ color: 'rgb(29, 161, 242)' }} />
       {icons.map((icon, index) => (
         <div key={index} className='flex align-middle gap-3 text-lg cursor-pointer'>
