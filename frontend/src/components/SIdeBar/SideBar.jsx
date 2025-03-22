@@ -4,19 +4,19 @@ import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { 
   faBell as faBellRegular, 
   faBookmark as faBookmarkRegular, 
-  faEnvelope as faEnvelopeRegular, 
+  faHeart, 
   faUser as faUserRegular 
 } from '@fortawesome/free-regular-svg-icons';
-import { faEllipsisH, faHashtag, faHouseChimney, faList } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisH, faHashtag, faHouseChimney, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const SideBar = () => {
   let icons = [
     { icon: faHouseChimney, title: "Home", color: "rgb(29, 161, 242)" },
-    { icon: faHashtag, title: "Explore", color: "black" },
+    { icon: faHashtag, title: "All posts", color: "black" },
+    { icon: faPlus, title: "Create post", color: "black" },   
+    { icon: faHeart, title: "My Likes", color: "black" },
     { icon: faBellRegular, title: "Notification", color: "black" },  
-    { icon: faEnvelopeRegular, title: "Message", color: "black" },   
     { icon: faBookmarkRegular, title: "Bookmarks", color: "black" }, 
-    { icon: faList, title: "Lists", color: "black" },
     { icon: faUserRegular, title: "Profile", color: "black" },       
     { icon: faEllipsisH, title: "More", color: "black" },
   ];
