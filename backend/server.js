@@ -13,5 +13,4 @@ app.use("/uploads", express.static("uploads"))
 const PORT = 3000
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
-
 })
