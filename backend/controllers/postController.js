@@ -7,7 +7,7 @@ exports.myPosts = async (req, res) => {
         const posts = result.rows.map(post => {
             return { ...post, url: 'http://localhost:3000/' + post.filepath }
         })
-        result.status(200).json(posts)
+        res.status(200).json(posts)
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "Something went wrong with posts controller" })
@@ -47,7 +47,12 @@ exports.deletePosts = async (req, res) => {
 
 exports.postPosts = async () => {
     try {
-
+        const { userId } = req.body;
+        const filepath = req.file.path;
+        const result = await pool.query(`
+            Insert into photos (filepath,user_id) values($1,$2) returning *`, [filepath, userId]
+        )
+        res.json(result.rows);
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "Internal server with post posts" })

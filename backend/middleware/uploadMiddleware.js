@@ -12,4 +12,4 @@ const twitStorage = multer.diskStorage({
 
 const upload = multer({storage: twitStorage})
 const uploadMiddleware = upload.single("photo")
-module.exports = uploadMiddleware
+module.exports = uploadMiddleware      
