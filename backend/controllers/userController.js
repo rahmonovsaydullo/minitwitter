@@ -1,3 +1,5 @@
+require('dotenv').config();  // Load environment variables
+
 const pool = require("../config/db");
 const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
@@ -8,7 +10,7 @@ exports.signup = async (req, res) => {
         const profile_picture = req.file;
 
         // Check if all fields are provided
-        if (!first_name || !user_name || !password || !profile_picture) {
+        if (!first_name || !user_name || !password || !profile_picture || !profile_picture.filename) {
             return res.status(400).json({ message: "All fields including profile photo are required" });
         }
 
