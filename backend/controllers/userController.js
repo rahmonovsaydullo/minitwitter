@@ -6,16 +6,11 @@ const jwt = require("jsonwebtoken");
 
 exports.signup = async (req, res) => {
     try {
-        const { first_name, user_name, password } = req.body;
+        const { name, username, password } = req.body;
         const profile_picture = req.file;
 
-        // Check if all fields are provided
-        if (!first_name || !user_name || !password || !profile_picture || !profile_picture.filename) {
-            return res.status(400).json({ message: "All fields including profile photo are required" });
-        }
-
-        // Check if username exists
-        const test = await pool.query(`SELECT * FROM users WHERE user_name = $1 LIMIT 1`, [user_name]);
+        // Check if username exists   
+        const test = await pool.query(`SELECT * FROM users WHERE username = $1 LIMIT 1`, [username]);
         if (test.rows.length > 0) {
             return res.status(409).json({ message: "Username already exists" });
         }
@@ -26,47 +21,55 @@ exports.signup = async (req, res) => {
 
         // Insert user into database
         const result = await pool.query(
-            `INSERT INTO users(first_name, user_name, password, profile_picture) 
+            `INSERT INTO users(name, username, password, profile_picture) 
              VALUES ($1, $2, $3, $4) RETURNING *`,
-            [first_name, user_name, encryptedPassword, profile_picture.filename]
+            [name, username, encryptedPassword, profile_picture.filename]
         );
+        
 
+        res.json(result.rows)
         // Remove password from response
         const { password: _, ...userData } = result.rows[0];
 
         return res.status(201).json(userData);
     } catch (error) {
         console.error("Signup error:", error);
-        return res.status(500).json({ message: "Server error during signup" });
+        return res.status(500).json({ message: "Server error during signup" + error });
     }
 };
 
 exports.login = async (req, res) => {
     try {
-        const { user_name, password } = req.body;
-
+        const { username, password } = req.body;
+        
         // Check if user exists
-        const result = await pool.query(`SELECT * FROM users WHERE user_name = $1 LIMIT 1`, [user_name]);
+        const result = await pool.query(`SELECT * FROM users WHERE username = $1 LIMIT 1`, [username]);
         if (result.rows.length === 0) {
-            return res.status(404).json({ message: "Invalid credentials" });
+            return res.status(404).json({ message: "Incorrect username or password" });
         }
 
         const user = result.rows[0];
+        console.log("Input Password (plain):", password);
+        console.log("Hashed Password from DB:", user.password);        
+        console.log("User from DB:", result.rows[0]);
+
+
+
 
         // Check if password is valid
         const isValidPassword = await bcrypt.compare(password, user.password);
         if (!isValidPassword) {
-            return res.status(404).json({ message: "Invalid credentials" });
+            return res.status(404).json({ message: "Incorrect username or password" });
         }
 
         // Generate JWT token
         const token = jwt.sign(
             {
                 userId: user.id,
-                userName: user.user_name, 
+                userName: user.username,
             },
-            process.env.JWT_SECRET, 
-            { expiresIn: '3m' }
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' }
         );
 
         // Return success response
