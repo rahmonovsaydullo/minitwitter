@@ -5,6 +5,7 @@ const Createpost = () => {
     return (
         <div>
             <SideBar />
+            <h1>Hello</h1>
         </div>
     )
 }
