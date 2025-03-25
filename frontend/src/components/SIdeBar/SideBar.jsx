@@ -20,7 +20,7 @@ const SideBar = () => {
 
 
   let sideBarItems = [
-    { icon: faHouseChimney, title: "Home", color: "rgb(29, 161, 242)", path: "/home", action: () => navigate("/") },
+    { icon: faHouseChimney, title: "Home", color: "rgb(29, 161, 242)", path: "/home", action: () => navigate("/home") },
     { icon: faHashtag, title: "All posts", color: "black", path: "/allposts", action: () => navigate("/allposts") },
     { icon: faPlus, title: "Create post", color: "black", path: "/createpos", action: () => navigate("/createpost") },
     { icon: faHeart, title: "My Likes", color: "black", path: "/mylikes", action: () => navigate("/mylikes") },
