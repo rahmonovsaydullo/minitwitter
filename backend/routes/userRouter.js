@@ -1,9 +1,9 @@
 const express = require("express");
 const { login, signup } = require("../controllers/userController");
-const uploadMiddleware = require("../middleware/uploadMiddleware");
+const upload = require("../middleware/uploadMiddleware");
 const userRouter = express.Router()
 
 userRouter.post('/login', login)
-userRouter.post('/signup', uploadMiddleware.single("photo"), signup)
+userRouter.post("/signup", upload.single("image"), signup);
 
 module.exports = userRouter

@@ -1,9 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import SideBar from '../../components/SIdeBar/SideBar';
 import MainSection from '../../components/MainSection/MainSection';
 import Aside from '../../components/Aside/Aside';
+import axios from 'axios';
 
 const Home = () => {
+
+  useEffect(() => {
+    axios
+    .get(`http://localhost/3000/user`)
+  
+    
+  }, [third])
+  
+
   return (
     <div className='flex '>
       <SideBar />
