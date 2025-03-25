@@ -6,7 +6,11 @@ export default {
   ],
 
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        twitterBlue: '#1DA1F2',
+      },
+    },
   },
   plugins: [],
 }
