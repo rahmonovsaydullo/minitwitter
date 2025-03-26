@@ -1,5 +1,5 @@
 import React from 'react'
-import SideBar from '../../components/SIdeBar/SideBar'
+import SideBar from '../../components/SideBar/SideBar'
 
 const Createpost = () => {
     return (

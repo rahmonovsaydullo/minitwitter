@@ -25,9 +25,9 @@ const SideBar = () => {
     { icon: faPlus, title: "Create post", color: "black", path: "/createpost", action: () => navigate("/createpost") },
     { icon: faHeart, title: "My Likes", color: "black", path: "/mylikes", action: () => navigate("/mylikes") },
     { icon: faBellRegular, title: "Notification", color: "black", path: "/notif", action: () => navigate("/notif") },
-    { icon: faBookmarkRegular, title: "Bookmarks", color: "black", path: "/bookmark", action: () => navigate("/bookmarks") },
+    { icon: faBookmarkRegular, title: "Bookmarks", color: "black", path: "", action: () => navigate("") },
     { icon: faUserRegular, title: "Profile", color: "black", path: "/profile", action: () => navigate("/profile") },
-    { icon: faEllipsisH, title: "More", color: "black", path: "/more", action: () => navigate("/more") },
+    { icon: faEllipsisH, title: "More", color: "black", path: "", action: () => navigate("") },
     { icon: faRightFromBracket, title: "Logout", action: handleLogout }
   ];
 
