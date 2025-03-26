@@ -6,19 +6,14 @@ import axios from 'axios';
 
 const Home = () => {
 
-  useEffect(() => {
-    axios
-    .get(`http://localhost/3000/user`)
-  
-    
-  }, [third])
-  
+
+
 
   return (
     <div className='flex '>
       <SideBar />
       <MainSection />
-      <Aside/>
+      <Aside />
     </div>
   )
 }

@@ -16,7 +16,8 @@ const LoginPage = () => {
         username: username,
         password: password,
       });
-
+      
+      localStorage.setItem("username", username)
       const token = response.data.token;
       localStorage.setItem("token", token);
 
