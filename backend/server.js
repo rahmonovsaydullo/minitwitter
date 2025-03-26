@@ -1,41 +1,18 @@
-// const express = require("express")
-// const app = express()
-// const cors = require("cors")
-
-
-// const userRouter = require("./routes/userRouter");
-
-
-// // Middlewares
-// app.use(express.json())
-// app.use(cors())
-// app.use("/uploads", express.static("uploads"))
-
-
-// // Calling routes
-// app.use("/", userRouter)
-// app.use("/user", userRouter);
-
-// const PORT = 3000
-// app.listen(PORT, () => {
-//     console.log(`Server running on port ${PORT}`);
-// })
-
-
 const express = require("express");
 const cors = require("cors");
 const userRouter = require("./routes/userRouter");
+const postRouter = require("./routes/postRouter");
 
 const app = express();
 
 // Middleware
 app.use(express.json());
 app.use(cors());
-app.use("/uploads", express.static("uploads"));
+app.use("/uploads", express.static("uploads")); // Serve static images
 
-// Calling routes
-app.use("/", userRouter)
-app.use("/user", userRouter); 
+// Routes
+app.use("/user", userRouter);
+app.use("/posts", postRouter);
 
 const PORT = 3000;
 app.listen(PORT, () => {
