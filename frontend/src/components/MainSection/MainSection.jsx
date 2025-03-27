@@ -28,7 +28,7 @@ const MainSection = () => {
       </div>
       <div className='bg-white'>
         <div className='flex  ms-2 pt-3 gap-4'>
-          <img src={userData?.profile_picture } alt="" style={{ width: "50px", height: "50px", borderRadius: "50%" }} />
+          <img src={userData?.profile_picture } alt="" className='w-12 h-12 rounded-full object-cover mr-3 border-2 border-gray-300' />
           <input className='w-full border px-4' type="text" placeholder="Create new post" />
         </div>
         <div className='flex justify-between px-3 py-4'>

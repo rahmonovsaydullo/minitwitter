@@ -12,7 +12,7 @@ const LoginPage = () => {
     e.preventDefault();
     
     try {
-      const response = await axios.post("http://localhost:3000/login", {
+      const response = await axios.post("http://localhost:3000/user/login", {
         username: username,
         password: password,
       });
@@ -33,7 +33,7 @@ const LoginPage = () => {
     <div className="h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <div className="flex justify-center mb-6">
-          <img src={img} alt="Twitter" className="h-12" />
+          <img src={img} alt="Twitter"  class="w-12" />
         </div>
         <h1 className="text-center text-2xl font-bold mb-6">
           Log in to Twitter
