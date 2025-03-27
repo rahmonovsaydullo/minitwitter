@@ -6,7 +6,7 @@ const { allPosts, myPosts, deletePosts, postPosts } = require("../controllers/po
 
 const postRouter = express.Router();
 
-postRouter.get("/", authentication, allPosts);
+postRouter.get("/", allPosts);
 postRouter.get("/:id", authentication, myPosts);
 postRouter.post("/", authentication, upload.single("post_img"), postPosts);
 postRouter.delete("/:id", authentication, deletePosts);
