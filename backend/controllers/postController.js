@@ -1,6 +1,5 @@
 const pool = require('../config/db');
 
-// ✅ Get all posts
 exports.allPosts = async (req, res) => {
     try {
         const result = await pool.query(`
@@ -51,7 +50,7 @@ exports.myPosts = async (req, res) => {
     }
 };
 
-// ✅ Create a new post
+
 exports.postPosts = async (req, res) => {
     try {
         const { userId, text } = req.body;

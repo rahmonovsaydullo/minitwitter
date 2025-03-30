@@ -10,7 +10,7 @@ const Posts = () => {
 
     const fetchPosts = async () => {
         try {
-            const response = await axios
+            const response = await axios   
                 .get('http://localhost:3000/posts')
 
             console.log(response.data);
@@ -24,11 +24,10 @@ const Posts = () => {
     useEffect(() => {
         fetchPosts()
         console.log(fetchPosts());
-
     }, [])
 
     return (
-        <div>
+        <div className='w-6/12 border ms-10 bg-gray-100 '>
             {
                 posts.map((post) => (
                     <div key={post.id}>
@@ -42,7 +41,7 @@ const Posts = () => {
                             <p>{post.text}</p>
                         </div>
                         <img src={post.post_img} alt="" />
-                        <div className='flex justify-between'> <FontAwesomeIcon icon={faComment} /> <FontAwesomeIcon icon={faArrowUpFromBracketRegular} /> <FontAwesomeIcon icon={faHeart} style={{ color: "red" }} /></div>
+                        <div className='flex justify-around'> <FontAwesomeIcon icon={faComment} /> <FontAwesomeIcon icon={faArrowUpFromBracketRegular} /> <FontAwesomeIcon icon={faHeart} style={{ color: "red" }} /></div>
                     </div>
                 ))
             }

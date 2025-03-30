@@ -18,6 +18,9 @@ const SideBar = () => {
     navigate("/")
   }
 
+  const gotoCreatePost = () => {
+    navigate("/createpost")
+  }
 
   let sideBarItems = [
     { icon: faHouseChimney, title: "Home", color: "rgb(29, 161, 242)", path: "/home", action: () => navigate("/home") },
@@ -33,8 +36,8 @@ const SideBar = () => {
 
 
   return (
-    <div className='flex flex-col items-start justify-center mt-2 ms-20 gap-6 '>
-      <FontAwesomeIcon className='text-3xl' icon={faTwitter} style={{ color: 'rgb(29, 161, 242)' }} />
+    <div className='flex flex-col items-start   ms-20 gap-6 border-r border-black px-8 h-screen'>
+      <FontAwesomeIcon className='text-3xl mt-3' icon={faTwitter} style={{ color: 'rgb(29, 161, 242)' }} />
       {sideBarItems.map((item, index) => {
         const isActive = location.pathname === item.path
         return (
@@ -46,7 +49,7 @@ const SideBar = () => {
           </div>
         )
       })}
-      <button className='btn  text-white flex justify-center align-middle py-3 px-20 rounded-full ' style={{ backgroundColor: "rgb(29, 161, 242" }}>Tweet</button>
+      <button className='btn  text-white flex justify-center align-middle py-3 px-20 rounded-full ' style={{ backgroundColor: "rgb(29, 161, 242" }} onClick={gotoCreatePost}>Tweet</button>
     </div>
   );
 };
