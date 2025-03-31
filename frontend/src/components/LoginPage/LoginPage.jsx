@@ -16,15 +16,23 @@ const LoginPage = () => {
         username: username,
         password: password,
       });
-      
-      localStorage.setItem("username", username)
+
+      // ✅ Ensure user object exists before accessing properties
+      const user = response.data.user;
       const token = response.data.token;
+
+      if (!user || !token) {
+        throw new Error("Invalid response from server");
+      }
+
+      localStorage.setItem("username", user.username);
+      localStorage.setItem("userId", user.id);  
       localStorage.setItem("token", token);
 
       console.log("Login successful");
       navigate("/home");  
     } catch (error) {
-      console.error("Login failed", error.response?.data);
+      console.error("Login failed", error.response?.data || error.message);
       alert("Invalid credentials. Please try again.");
     }
   };
@@ -33,7 +41,7 @@ const LoginPage = () => {
     <div className="h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <div className="flex justify-center mb-6">
-          <img src={img} alt="Twitter"  class="w-12" />
+          <img src={img} alt="Twitter" className="w-12" />
         </div>
         <h1 className="text-center text-2xl font-bold mb-6">
           Log in to Twitter

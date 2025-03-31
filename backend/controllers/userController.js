@@ -3,6 +3,7 @@ const pool = require("../config/db");
 const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 
+
 exports.signup = async (req, res) => {
     try {
         const { name, username, password } = req.body;
@@ -24,18 +25,25 @@ exports.signup = async (req, res) => {
             [name, username, encryptedPassword, profile_picture]
         );
 
-        // Convert filename to full URL
         let user = result.rows[0];
         if (user.profile_picture) {
             user.profile_picture = `http://localhost:3000/uploads/${user.profile_picture}`;
         }
 
-        return res.status(201).json(user);
+        // ✅ Generate JWT token with correct userId
+        const token = jwt.sign(
+            { userId: user.id, username: user.username }, 
+            "MY_SUPER_SECRET_KEY_987654321", 
+            { expiresIn: "1h" }
+        );
+
+        return res.status(201).json({ user, token });
     } catch (error) {
         console.error("Signup error:", error);
         return res.status(500).json({ message: "Server error during signup" });
     }
 };
+
 
 exports.login = async (req, res) => {
     try {
@@ -60,13 +68,15 @@ exports.login = async (req, res) => {
         if (user.profile_picture) {
             user.profile_picture = `http://localhost:3000/uploads/${user.profile_picture}`;
         }
-
+        
         // Generate JWT token
         const token = jwt.sign(
             { userId: user.id, username: user.username },
-            process.env.JWT_SECRET,
-            { expiresIn: '1h' }
+            "MY_SUPER_SECRET_KEY_987654321",  // ✅ Stronger secret key
+            { expiresIn: "1h" }  
         );
+        console.log("Received Token:", token);
+        
 
         return res.status(200).json({ user, token });
     } catch (error) {

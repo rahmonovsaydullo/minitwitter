@@ -53,29 +53,33 @@ exports.myPosts = async (req, res) => {
 
 exports.postPosts = async (req, res) => {
     try {
-        const { userId, text } = req.body;
-        const post_img = req.file ? req.file.filename : null;
+        console.log("🔍 Extracted User from Token:", req.user); // ✅ Debugging User
+        
+        const userId = req.user.id;  // ⚠️ If `req.user` is undefined, userId will be undefined
+        const { text } = req.body;
 
-        if (!userId || !text) {
-            return res.status(400).json({ message: "User ID and text are required" });
+        if (!userId) {
+            return res.status(401).json({ message: "Unauthorized: Invalid or missing token" });
         }
 
-        const result = await pool.query(`
-            INSERT INTO posts (user_id, text, post_img) 
-            VALUES ($1, $2, $3) RETURNING *;
-        `, [userId, text, post_img]);
+        if (!text) {
+            return res.status(400).json({ message: "Text is required" });
+        }
 
+        const result = await pool.query(
+            `INSERT INTO posts (user_id, text) 
+            VALUES ($1, $2) RETURNING *;`,
+            [userId, text, post_img]
+        );
         const newPost = result.rows[0];
-        newPost.post_img = post_img 
-            ? `http://localhost:3000/uploads/${post_img}` 
-            : null;
-
         res.status(201).json(newPost);
     } catch (error) {
         console.error("⚠️ Error creating post:", error);
         res.status(500).json({ message: "Server error creating post" });
     }
 };
+
+
 
 // ✅ Delete a post
 exports.deletePosts = async (req, res) => {
