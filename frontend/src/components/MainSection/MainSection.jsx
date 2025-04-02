@@ -22,7 +22,7 @@ const MainSection = () => {
   }, [])
 
   return (
-    <div className='w-6/12 border ms-10 bg-gray-100 '>
+    <div className='w-full border ms-10 bg-gray-100 '>
       <div className='flex justify-between bg-white border-b px-5 py-3'>
         <p className='font-semibold'>Home</p>
         <img src={magicImg} alt="" />

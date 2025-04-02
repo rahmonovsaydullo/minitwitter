@@ -27,14 +27,15 @@ const Posts = () => {
     }, [])
 
     return (
-        <div className='w-6/12 border ms-10 bg-gray-100 '>
+        <div className='w-full border bg-gray-100 '>
             {
                 posts.map((post) => (
                     <div key={post.id}>
                             <div>
                                 <p>{post.name}</p>
                                 <p>{post.username}</p>
-                                <p>{post.created_at}</p>
+                                <p>{formatDistanceToNow(new Date(post.created_at), { addSuffix: true })}</p>
+
                             </div>
                             <p>{post.text}</p>
                         <img src={post.post_img} alt="" />

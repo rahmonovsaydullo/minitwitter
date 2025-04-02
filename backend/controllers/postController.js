@@ -1,5 +1,7 @@
 const pool = require('../config/db');
 
+const { formatDistanceToNow } = require('date-fns');
+
 exports.allPosts = async (req, res) => {
     try {
         const result = await pool.query(`
@@ -12,6 +14,7 @@ exports.allPosts = async (req, res) => {
 
         const posts = result.rows.map(post => ({
             ...post,
+            time_ago: formatDistanceToNow(new Date(post.created_at), { addSuffix: true }),
             post_img: post.post_img 
                 ? `http://localhost:3000/uploads/${post.post_img}` 
                 : null,
@@ -27,19 +30,20 @@ exports.allPosts = async (req, res) => {
     }
 };
 
+
 // ✅ Get my posts
 exports.myPosts = async (req, res) => {
     try {
         const id = req.params.id;
         const result = await pool.query(
-            `SELECT * FROM posts WHERE user_id = $1 ORDER BY created_at DESC`, 
+            `SELECT * FROM posts WHERE user_id = $1 ORDER BY created_at DESC`,
             [id]
         );
 
         const posts = result.rows.map(post => ({
             ...post,
-            post_img: post.post_img 
-                ? `http://localhost:3000/uploads/${post.post_img}` 
+            post_img: post.post_img
+                ? `http://localhost:3000/uploads/${post.post_img}`
                 : null
         }));
 
@@ -86,7 +90,7 @@ exports.deletePosts = async (req, res) => {
         const { id } = req.params;
 
         const checkPost = await pool.query(
-            "SELECT * FROM posts WHERE id = $1", 
+            "SELECT * FROM posts WHERE id = $1",
             [id]
         );
 
