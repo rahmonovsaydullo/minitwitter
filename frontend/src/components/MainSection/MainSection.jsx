@@ -32,8 +32,7 @@ const MainSection = () => {
           <img src={userData?.profile_picture } alt="" className='w-12 h-12 rounded-full object-cover mr-3 border-2 border-gray-300' />
           <input className='w-full border px-4' type="text" placeholder="Create new post" />
         </div>
-        <div className='flex justify-between px-3 py-4'>
-          <input type="file" />
+        <div className='flex justify-end px-3 py-4'>
           <button className='text-white px-7 py-3 bg-blue-400 rounded-full '>Tweet</button>
         </div>
       </div>

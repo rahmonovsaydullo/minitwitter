@@ -10,14 +10,15 @@ const LoginPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    
+
     try {
       const response = await axios.post("http://localhost:3000/user/login", {
         username: username,
         password: password,
       });
 
-      // ✅ Ensure user object exists before accessing properties
+      console.log(response);
+
       const user = response.data.user;
       const token = response.data.token;
 
@@ -26,11 +27,11 @@ const LoginPage = () => {
       }
 
       localStorage.setItem("username", user.username);
-      localStorage.setItem("userId", user.id);  
+      localStorage.setItem("userId", user.id);
       localStorage.setItem("token", token);
 
       console.log("Login successful");
-      navigate("/home");  
+      navigate("/home");
     } catch (error) {
       console.error("Login failed", error.response?.data || error.message);
       alert("Invalid credentials. Please try again.");

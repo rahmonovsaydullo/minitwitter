@@ -32,8 +32,8 @@ exports.signup = async (req, res) => {
 
         // ✅ Generate JWT token with correct userId
         const token = jwt.sign(
-            { userId: user.id, username: user.username }, 
-            "MY_SUPER_SECRET_KEY_987654321", 
+            { userId: user.id, username: user.username },
+            "The secret of the secretness word of secret",
             { expiresIn: "1h" }
         );
 
@@ -68,15 +68,15 @@ exports.login = async (req, res) => {
         if (user.profile_picture) {
             user.profile_picture = `http://localhost:3000/uploads/${user.profile_picture}`;
         }
-        
+
         // Generate JWT token
         const token = jwt.sign(
             { userId: user.id, username: user.username },
-            "MY_SUPER_SECRET_KEY_987654321",  // ✅ Stronger secret key
-            { expiresIn: "1h" }  
+            "The secret of the secretness word of secret",
+            { expiresIn: "1h" }
         );
         console.log("Received Token:", token);
-        
+
 
         return res.status(200).json({ user, token });
     } catch (error) {

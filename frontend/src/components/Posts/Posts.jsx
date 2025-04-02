@@ -31,15 +31,12 @@ const Posts = () => {
             {
                 posts.map((post) => (
                     <div key={post.id}>
-                        <img src={post.profile_picture} alt="" />
-                        <div>
                             <div>
                                 <p>{post.name}</p>
                                 <p>{post.username}</p>
                                 <p>{post.created_at}</p>
                             </div>
                             <p>{post.text}</p>
-                        </div>
                         <img src={post.post_img} alt="" />
                         <div className='flex justify-around'> <FontAwesomeIcon icon={faComment} /> <FontAwesomeIcon icon={faArrowUpFromBracketRegular} /> <FontAwesomeIcon icon={faHeart} style={{ color: "red" }} /></div>
                     </div>

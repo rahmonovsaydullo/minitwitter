@@ -3,7 +3,7 @@ const pool = require('../config/db');
 exports.allPosts = async (req, res) => {
     try {
         const result = await pool.query(`
-            SELECT posts.id, posts.text, posts.post_img, posts.created_at, 
+            SELECT posts.id, posts.text, posts.created_at, 
                    users.username, users.profile_picture
             FROM posts
             JOIN users ON posts.user_id = users.id
@@ -53,13 +53,10 @@ exports.myPosts = async (req, res) => {
 
 exports.postPosts = async (req, res) => {
     try {
-        console.log("🔍 Extracted User from Token:", req.user); // ✅ Debugging User
-        
-        const userId = req.user.id;  // ⚠️ If `req.user` is undefined, userId will be undefined
-        const { text } = req.body;
+        const { text, user_id } = req.body; // Get user_id from request body
 
-        if (!userId) {
-            return res.status(401).json({ message: "Unauthorized: Invalid or missing token" });
+        if (!user_id) {
+            return res.status(400).json({ message: "User ID is required" });
         }
 
         if (!text) {
@@ -69,15 +66,17 @@ exports.postPosts = async (req, res) => {
         const result = await pool.query(
             `INSERT INTO posts (user_id, text) 
             VALUES ($1, $2) RETURNING *;`,
-            [userId, text, post_img]
+            [user_id, text]
         );
+
         const newPost = result.rows[0];
         res.status(201).json(newPost);
     } catch (error) {
-        console.error("⚠️ Error creating post:", error);
+        console.error("Error creating post:", error);
         res.status(500).json({ message: "Server error creating post" });
     }
 };
+
 
 
 
