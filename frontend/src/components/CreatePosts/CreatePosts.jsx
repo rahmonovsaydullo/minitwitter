@@ -9,17 +9,17 @@ const CreatePost = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const userId = localStorage.getItem("userId"); // Get userId from localStorage
+        const userId = localStorage.getItem("userId"); 
 
         if (!userId) {
             alert("User not logged in. Please log in to post.");
-            navigate("/login"); // Redirect to login if userId is missing
+            navigate("/login"); 
             return;
         }
 
         const formData = new FormData();
         formData.append("text", text);
-        formData.append("user_id", userId); // Attach userId from localStorage
+        formData.append("user_id", userId); 
 
         axios.post("http://localhost:3000/posts", formData, {
             headers: {
@@ -27,17 +27,17 @@ const CreatePost = () => {
             }
         })
             .then((response) => {
-                console.log("✅ Post created successfully!", response.data);
+                console.log("Post created successfully!", response.data);
                 alert("Post created successfully!");
                 navigate("/home");
             })
             .catch((error) => {
-                console.error("❌ Post creation failed", error.response?.data || error.message);
+                console.error("Post creation failed", error.response?.data || error.message);
             });
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100">
+        <div className="flex justify-center items-center min-h-screen w-1/2 bg-gray-100">
             <form
                 className="bg-white shadow-lg rounded-lg p-6 w-96"
                 onSubmit={handleSubmit}

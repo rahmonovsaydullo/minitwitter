@@ -36,7 +36,7 @@ const SideBar = () => {
 
 
   return (
-    <div className='flex flex-col items-start   ms-20 gap-6 border-r border-black px-8 h-screen'>
+    <div className='flex flex-col items-start  ms-20 gap-6 border-r border-black px-8 h-screen'>
       <FontAwesomeIcon className='text-3xl mt-3' icon={faTwitter} style={{ color: 'rgb(29, 161, 242)' }} />
       {sideBarItems.map((item, index) => {
         const isActive = location.pathname === item.path

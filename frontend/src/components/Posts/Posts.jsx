@@ -1,53 +1,48 @@
-import React, { useEffect, useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowUpFromBracket as faArrowUpFromBracketRegular, faComment, faHeart } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowUpFromBracket as faShare, faComment, faHeart } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 import { formatDistanceToNow } from "date-fns";
 
-const Posts = () => {
+const Posts = ({ refresh }) => { // Accept refresh as a prop
+  const [posts, setPosts] = useState([]);
 
-    const [posts, setPosts] = useState([])
+  useEffect(() => {
+    fetchPosts();
+  }, [refresh]); // Fetch posts when refresh changes
 
-    const fetchPosts = async () => {
-        try {
-            const response = await axios
-                .get('http://localhost:3000/posts')
-
-            console.log(response.data);
-            setPosts(response.data)
-        } catch (error) {
-            console.log(error);
-
-        }
+  // Fetch posts from API
+  const fetchPosts = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/posts");
+      setPosts(response.data);
+    } catch (error) {
+      console.error("Error fetching posts:", error.message);
     }
+  };
 
-    useEffect(() => {
-        fetchPosts()
-        console.log(fetchPosts());
-    }, [])
+  return (
+    <div className="w-full border bg-gray-100">
+      {posts.map((post) => (
+        <div className="px-3 py-3 border-b bg-white" key={post.id}>
+          <div className="flex justify-between">
+            <p className="text-blue-500">@{post.username}</p>
+            <p>
+              {formatDistanceToNow(new Date(post.created_at), { addSuffix: true })}
+            </p>
+          </div>
+          <p className="text-2xl">{post.text}</p>
 
-    return (
-        <div className='w-full border  bg-gray-100 '>
-            {
-                posts.map((post) => (
-                    <div className='px-3 py-3' key={post.id}>
-                        <div className='flex justify-between'>
-                            <p className='text-blue-500'>@{post.username}</p>
-                            <p>{formatDistanceToNow(new Date(post.created_at), { addSuffix: true })}</p>
-                        </div>
-                        <p className='text-2xl'>{post.text}</p>
-                        {/* <img src={post.post_img} alt="" /> */}
-                        <div className='flex justify-around pt-2 '> 
-                            <FontAwesomeIcon icon={faComment}  className='cursor-pointer'/>
-                             <FontAwesomeIcon icon={faArrowUpFromBracketRegular}  className='cursor-pointer'/>
-                              <FontAwesomeIcon icon={faHeart} style={{ color: "red" }}  className='cursor-pointer'/>
-                        </div>
-                    </div>
-                ))
-            }
+          {/* Action buttons */}
+          <div className="flex justify-around pt-2 text-gray-600">
+            <FontAwesomeIcon icon={faComment} className="cursor-pointer hover:text-blue-500" />
+            <FontAwesomeIcon icon={faShare} className="cursor-pointer hover:text-green-500" />
+            <FontAwesomeIcon icon={faHeart} className="cursor-pointer hover:text-red-500" />
+          </div>
         </div>
-    )
-}
+      ))}
+    </div>
+  );
+};
 
-export default Posts
-
+export default Posts;
