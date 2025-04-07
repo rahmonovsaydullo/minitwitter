@@ -4,14 +4,14 @@ import { faArrowUpFromBracket as faShare, faComment, faHeart } from "@fortawesom
 import axios from "axios";
 import { formatDistanceToNow } from "date-fns";
 
-const Posts = ({ refresh }) => { // Accept refresh as a prop
+const Posts = ({ refresh }) => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     fetchPosts();
-  }, [refresh]); // Fetch posts when refresh changes
+  }, [refresh]);
 
-  // Fetch posts from API
+  // Fetch posts
   const fetchPosts = async () => {
     try {
       const response = await axios.get("http://localhost:3000/posts");
@@ -32,8 +32,6 @@ const Posts = ({ refresh }) => { // Accept refresh as a prop
             </p>
           </div>
           <p className="text-2xl">{post.text}</p>
-
-          {/* Action buttons */}
           <div className="flex justify-around pt-2 text-gray-600">
             <FontAwesomeIcon icon={faComment} className="cursor-pointer hover:text-blue-500" />
             <FontAwesomeIcon icon={faShare} className="cursor-pointer hover:text-green-500" />

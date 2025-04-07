@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import {
-  faBell as faBellRegular,
+  faFileAlt,
   faBookmark as faBookmarkRegular,
   faHeart,
   faUser as faUserRegular
@@ -26,8 +26,8 @@ const SideBar = () => {
     { icon: faHouseChimney, title: "Home", color: "rgb(29, 161, 242)", path: "/home", action: () => navigate("/home") },
     { icon: faHashtag, title: "All posts", color: "black", path: "/allposts", action: () => navigate("/allposts") },
     { icon: faPlus, title: "Create post", color: "black", path: "/createpost", action: () => navigate("/createpost") },
-    { icon: faHeart, title: "My Likes", color: "black", path: "/mylikes", action: () => navigate("/mylikes") },
-    { icon: faBellRegular, title: "Notification", color: "black", path: "/notif", action: () => navigate("/notif") },
+    { icon: faHeart, title: "My likes", color: "black", path: "/mylikes", action: () => navigate("/mylikes") },
+    { icon: faFileAlt, title: "My posts", color: "black", path: "/myposts", action: () => navigate("/myposts") },
     { icon: faBookmarkRegular, title: "Bookmarks", color: "black", path: "", action: () => navigate("") },
     { icon: faUserRegular, title: "Profile", color: "black", path: "/profile", action: () => navigate("/profile") },
     { icon: faEllipsisH, title: "More", color: "black", path: "", action: () => navigate("") },

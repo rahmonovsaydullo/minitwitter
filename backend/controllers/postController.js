@@ -6,7 +6,7 @@ exports.allPosts = async (req, res) => {
     try {
         const result = await pool.query(`
             SELECT posts.id, posts.text, posts.created_at, 
-                   users.username, users.profile_picture
+                   users.username, users.name, users.profile_picture
             FROM posts
             JOIN users ON posts.user_id = users.id
             ORDER BY posts.created_at DESC;
