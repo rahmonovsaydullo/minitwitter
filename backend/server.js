@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const userRouter = require("./routes/userRouter");
 const postRouter = require("./routes/postRouter");
+const likesRouter = require("./routes/likesRouter"); // ✅ Import this
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use("/uploads", express.static("uploads"));
 // Routes
 app.use("/user", userRouter);
 app.use("/posts", postRouter);
+app.use("/likes", likesRouter); // ✅ Mount here
 
 const PORT = 3000;
 app.listen(PORT, () => {

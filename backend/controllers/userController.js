@@ -107,3 +107,13 @@ exports.getUser = async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 };
+
+exports.getLikes = async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM likes');
+        res.json(result.rows);
+    } catch (err) {
+        console.error('Error fetching likes:', err);
+        res.status(500).json({ error: 'Server error' });
+    }
+};
