@@ -42,25 +42,38 @@ const Posts = ({ refresh }) => {
   };
 
   const toggleLike = async (postId) => {
+    const token = localStorage.getItem("token"); // Retrieve token
+    
     try {
-      const res = await axios.post(`http://localhost:3000/likes/${postId}`, { userId });
-      const { liked } = res.data;
-
+      // Send the request to toggle like status
+      const res = await axios.post(
+        `http://localhost:3000/likes/${postId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Attach token correctly
+          },
+        }
+      );
+  
+      // Get the updated like status from the response
+      const updatedPost = res.data; // { liked, likeCount }
+  
+      // Update the posts state with the new like status and like count
       setPosts((prevPosts) =>
         prevPosts.map((post) =>
           post.id === postId
-            ? {
-                ...post,
-                isLiked: liked,
-                likeCount: post.likeCount + (liked ? 1 : -1),
-              }
+            ? { ...post, isLiked: updatedPost.liked, likeCount: updatedPost.likeCount }
             : post
         )
       );
     } catch (error) {
-      console.error("Error toggling like:", error.message);
+      console.error("Error toggling like:", error.response?.data || error.message);
     }
   };
+  
+  
+  
 
   return (
     <>

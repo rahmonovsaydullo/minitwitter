@@ -1,8 +1,7 @@
-// components/CommentSidebar.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const userId = 1;
+const userId = 9;
 
 const CommentSidebar = ({ post, onClose }) => {
   const [comments, setComments] = useState([]);
@@ -14,7 +13,7 @@ const CommentSidebar = ({ post, onClose }) => {
 
   const fetchComments = async () => {
     try {
-      const res = await axios.get(`http://localhost:3000/posts/${post.id}/comments`);
+      const res = await axios.get(`http://localhost:3000/posts/${post.id}/comments`)
       setComments(res.data);
     } catch (error) {
       console.error("Failed to load comments:", error.message);
@@ -23,20 +22,30 @@ const CommentSidebar = ({ post, onClose }) => {
 
   const handleSubmit = async () => {
     if (!newComment.trim()) return;
-
+  
+    const token = localStorage.getItem("token"); // ✅ Get token from localStorage
+  
     try {
-      await axios.post("http://localhost:3000/comments", {
-        userId,
-        postId: post.id,
-        text: newComment.trim(),
-      });
-
+      await axios.post(
+        `http://localhost:3000/posts/${post.id}/comments`,
+        {
+          text: newComment.trim(),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      
+  
       setNewComment("");
       fetchComments();
     } catch (error) {
       console.error("Failed to submit comment:", error.message);
     }
   };
+  
 
   if (!post) return null;
 
