@@ -38,9 +38,69 @@ const createComment = async (req, res) => {
 };
 
   
-  
+  // controllers/commentController.js
+
+
+// POST /comments/:commentId/like
+const likeComment = async (req, res) => {
+  const commentId = parseInt(req.params.commentId);
+  const userId = req.user.userId;
+
+  try {
+    await pool.query(
+      "INSERT INTO comment_likes (comment_id, user_id) VALUES ($1, $2) ON CONFLICT DO NOTHING",
+      [commentId, userId]
+    );
+    res.status(200).json({ message: "Comment liked." });
+  } catch (error) {
+    console.error("Error liking comment:", error);
+    res.status(500).json({ error: "Failed to like comment" });
+  }
+};
+
+// DELETE /comments/:commentId/unlike
+const unlikeComment = async (req, res) => {
+  const commentId = parseInt(req.params.commentId);
+  const userId = req.user.userId;
+
+  try {
+    await pool.query(
+      "DELETE FROM comment_likes WHERE comment_id = $1 AND user_id = $2",
+      [commentId, userId]
+    );
+    res.status(200).json({ message: "Comment unliked." });
+  } catch (error) {
+    console.error("Error unliking comment:", error);
+    res.status(500).json({ error: "Failed to unlike comment" });
+  }
+};
+
+// GET /comments/:commentId/likes-count
+const getCommentLikes = async (req, res) => {
+  const commentId = parseInt(req.params.commentId);
+
+  try {
+    const result = await pool.query(
+      "SELECT COUNT(*) FROM comment_likes WHERE comment_id = $1",
+      [commentId]
+    );
+    res.status(200).json({ likes: parseInt(result.rows[0].count, 10) });
+  } catch (error) {
+    console.error("Error getting comment likes:", error);
+    res.status(500).json({ error: "Failed to get comment likes" });
+  }
+};
 
 module.exports = {
   getComments,
   createComment,
+  likeComment,
+  unlikeComment,
+  getCommentLikes,
 };
+
+
+// module.exports = {
+//   getComments,
+//   createComment,
+// };

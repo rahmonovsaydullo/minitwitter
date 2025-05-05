@@ -1,6 +1,6 @@
-// Posts.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import {jwtDecode} from "jwt-decode";
 import { formatDistanceToNow } from "date-fns";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,12 +10,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import CommentSidebar from "../CommentSidebar/CommentSidebar";
 
-
-const userId = 1;
-
 const Posts = ({ refresh }) => {
   const [posts, setPosts] = useState([]);
   const [activePost, setActivePost] = useState(null);
+  const token = localStorage.getItem("token");
+  const userId = token ? jwtDecode(token).userId : null;
 
   useEffect(() => {
     fetchPosts();
@@ -23,16 +22,19 @@ const Posts = ({ refresh }) => {
 
   const fetchPosts = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/posts");
-      const postsData = response.data;
+      const postsRes = await axios.get("http://localhost:3000/posts");
+      const postsData = postsRes.data;
 
-      const likesRes = await axios.get(`http://localhost:3000/user/${userId}/likes`);
-      const likedPostIds = likesRes.data.map((like) => like.postId);
+      const likesRes = await axios.get("http://localhost:3000/likes/user/likes", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const likedPostIds = likesRes.data.map((like) => like.post_id);
 
       const enrichedPosts = postsData.map((post) => ({
         ...post,
         isLiked: likedPostIds.includes(post.id),
-        likeCount: post.likecount,
+        likeCount: post.likecount, // Assuming `likecount` comes from your `posts` query
       }));
 
       setPosts(enrichedPosts);
@@ -42,28 +44,23 @@ const Posts = ({ refresh }) => {
   };
 
   const toggleLike = async (postId) => {
-    const token = localStorage.getItem("token"); // Retrieve token
-    
     try {
-      // Send the request to toggle like status
       const res = await axios.post(
         `http://localhost:3000/likes/${postId}`,
         {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // Attach token correctly
-          },
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
-  
-      // Get the updated like status from the response
-      const updatedPost = res.data; // { liked, likeCount }
-  
-      // Update the posts state with the new like status and like count
+
+      const updatedPost = res.data;
+
       setPosts((prevPosts) =>
         prevPosts.map((post) =>
           post.id === postId
-            ? { ...post, isLiked: updatedPost.liked, likeCount: updatedPost.likeCount }
+            ? {
+                ...post,
+                isLiked: updatedPost.liked,
+                likeCount: updatedPost.likeCount,
+              }
             : post
         )
       );
@@ -71,9 +68,6 @@ const Posts = ({ refresh }) => {
       console.error("Error toggling like:", error.response?.data || error.message);
     }
   };
-  
-  
-  
 
   return (
     <>
@@ -88,17 +82,11 @@ const Posts = ({ refresh }) => {
             <p className="text-xl mt-2 mb-3">{post.text}</p>
 
             <div className="flex justify-around items-center text-lg text-gray-700 mb-2">
-              <button
-                className="hover:text-blue-500 transition"
-                onClick={() => setActivePost(post)}
-              >
+              <button onClick={() => setActivePost(post)} className="hover:text-blue-500 transition">
                 <FontAwesomeIcon icon={faComment} className="mr-1" />
               </button>
 
-              <button
-                className="hover:text-green-500 transition"
-                onClick={() => alert("Share clicked!")}
-              >
+              <button onClick={() => alert("Share clicked!")} className="hover:text-green-500 transition">
                 <FontAwesomeIcon icon={faShare} className="mr-1" />
               </button>
 
@@ -114,10 +102,7 @@ const Posts = ({ refresh }) => {
         ))}
       </div>
 
-      {/* Comment Sidebar */}
-      {activePost && (
-        <CommentSidebar post={activePost} onClose={() => setActivePost(null)} />
-      )}
+      {activePost && <CommentSidebar post={activePost} onClose={() => setActivePost(null)} />}
     </>
   );
 };
