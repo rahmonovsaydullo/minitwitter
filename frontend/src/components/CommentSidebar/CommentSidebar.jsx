@@ -22,9 +22,9 @@ const CommentSidebar = ({ post, onClose }) => {
 
   const handleSubmit = async () => {
     if (!newComment.trim()) return;
-  
-    const token = localStorage.getItem("token"); // ✅ Get token from localStorage
-  
+
+    const token = localStorage.getItem("token");
+
     try {
       await axios.post(
         `http://localhost:3000/posts/${post.id}/comments`,
@@ -37,15 +37,15 @@ const CommentSidebar = ({ post, onClose }) => {
           },
         }
       );
-      
-  
+
+
       setNewComment("");
       fetchComments();
     } catch (error) {
       console.error("Failed to submit comment:", error.message);
     }
   };
-  
+
 
   if (!post) return null;
 

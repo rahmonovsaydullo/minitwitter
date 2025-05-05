@@ -1,7 +1,6 @@
-// controllers/commentController.js
-const pool = require("../config/db"); // Adjust path to match your project
+const pool = require("../config/db");
 
-// GET /posts/:postId/comments
+
 const getComments = async (req, res) => {
   const postId = req.params.postId;
 
@@ -11,14 +10,14 @@ const getComments = async (req, res) => {
       [postId]
     );
 
-    res.status(200).json(result.rows); // ✅ Send array of comments
+    res.status(200).json(result.rows); 
   } catch (error) {
     console.error("Error fetching comments:", error);
     res.status(500).json({ error: "Failed to fetch comments" });
   }
 };
 
-// POST /posts/:postId/comments
+
 const createComment = async (req, res) => {
   const postId = parseInt(req.params.postId);
   const { text } = req.body;
@@ -38,10 +37,7 @@ const createComment = async (req, res) => {
 };
 
   
-  // controllers/commentController.js
 
-
-// POST /comments/:commentId/like
 const likeComment = async (req, res) => {
   const commentId = parseInt(req.params.commentId);
   const userId = req.user.userId;
@@ -58,7 +54,7 @@ const likeComment = async (req, res) => {
   }
 };
 
-// DELETE /comments/:commentId/unlike
+
 const unlikeComment = async (req, res) => {
   const commentId = parseInt(req.params.commentId);
   const userId = req.user.userId;
@@ -75,7 +71,7 @@ const unlikeComment = async (req, res) => {
   }
 };
 
-// GET /comments/:commentId/likes-count
+
 const getCommentLikes = async (req, res) => {
   const commentId = parseInt(req.params.commentId);
 
@@ -100,7 +96,3 @@ module.exports = {
 };
 
 
-// module.exports = {
-//   getComments,
-//   createComment,
-// };

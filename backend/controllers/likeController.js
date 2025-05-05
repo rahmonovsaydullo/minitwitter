@@ -1,6 +1,6 @@
 const pool = require("../config/db");
 
-// Get all likes by the authenticated user
+// Get all likes by authenticated user
 exports.getUserLikes = async (req, res) => {
   const { userId } = req.user;
 
@@ -16,7 +16,7 @@ exports.getUserLikes = async (req, res) => {
   }
 };
 
-// Toggle like/unlike and return updated like count
+// Toggle like function
 exports.toggleLike = async (req, res) => {
   const { postId } = req.params;
   const { userId } = req.user;

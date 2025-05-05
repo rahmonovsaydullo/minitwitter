@@ -34,7 +34,7 @@ const Posts = ({ refresh }) => {
       const enrichedPosts = postsData.map((post) => ({
         ...post,
         isLiked: likedPostIds.includes(post.id),
-        likeCount: post.likecount, // Assuming `likecount` comes from your `posts` query
+        likeCount: post.likecount, 
       }));
 
       setPosts(enrichedPosts);
